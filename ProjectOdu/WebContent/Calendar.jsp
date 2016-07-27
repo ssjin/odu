@@ -1,6 +1,6 @@
-<%@page import="sist.co.member.memberDTO"%>
-<%@page import="sist.co.cal.calDAO"%>
-<%@page import="sist.co.cal.calDTO"%>
+<%@page import="DBconn.MemberDTO"%>
+<%@page import="sist.co.cal.calDao"%>
+<%@page import="sist.co.cal.CalendarDTO"%>
 <%@page contentType="text/html; charset=UTF-8" %>
 <%@page import='java.util.Calendar' %>
 <%@page import='java.util.List' %>
@@ -52,12 +52,12 @@ public String dot3(String msg){
 	return s;
 }
 
-public String makeTable(int year, int month, int day, List<calDTO> lcdtos){
+public String makeTable(int year, int month, int day, List<CalendarDTO> lcdtos){
 	String s="";
 	String dates=(year+"")+two(month+"")+two(day+"");
 	s="<table>";
 	s+="<col width='98'/>";
-	for(calDTO lcd:lcdtos){
+	for(CalendarDTO lcd:lcdtos){
 		if(lcd.getRdate().substring(0, 8).equals(dates)){
 			s += "<tr bgcolor='pink'>";
 			s += "<td>";
@@ -105,10 +105,10 @@ cal.set(year, month-1, 1);
 int dayOfWeek=cal.get(Calendar.DAY_OF_WEEK);	// 6
 
 ////////////////////////////////
-calDAO dao = calDAO.getInstance();
-memberDTO user=(memberDTO)session.getAttribute("login");
+calDao dao = calDao.getInstance();
+MemberDTO user=(MemberDTO)session.getAttribute("login");
 
-List<calDTO> cdtos=dao.getCalendarList(user.getId(), year+two(month+""));
+List<CalendarDTO> cdtos=dao.getCalendarList(user.getId(), year+two(month+""));
 
 
 /* String sf = String.format("%d년 %d월", year, month);
