@@ -33,9 +33,9 @@ public class MemberDAO implements DaoInterface {
 	public static Connection getConnection() throws SQLException{
 		// 본격적인 DB Connection부분.
 		Connection conn = null;
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user= "hr";
-		String pw = "hr";
+		String url = "jdbc:oracle:thin:@211.238.142.172:1521:hr"; 
+		String user = "scott";
+		String passwd = "hr";
 		
 		conn = DriverManager.getConnection(url, user, pw);
 		
