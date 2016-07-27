@@ -146,7 +146,7 @@ if(isMultipart){
 //업로드후에 DB에 저장하기
 
 
-System.out.println(id + "/" + content + "/" + title + "/" + f_name + "/" + cate + "/" + Mdate + "/"+ t_numm);
+System.out.println(id + "/" + content + "/" + title + "/" + f_name + "/" + cate + "/" + Mdate + "/"+ t_numm + "");
 togerherDAO dao = togerherDAO.getInstance();
 boolean isS = dao.writeTogether(new togetherDTO(id, cate, title, content, f_name, Mdate, t_num));
 if(isS){
