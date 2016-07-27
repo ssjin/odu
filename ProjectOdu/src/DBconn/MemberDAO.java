@@ -35,7 +35,7 @@ public class MemberDAO implements DaoInterface {
 		Connection conn = null;
 		String url = "jdbc:oracle:thin:@211.238.142.172:1521:hr"; 
 		String user = "scott";
-		String passwd = "hr";
+		String pw = "hr";
 		
 		conn = DriverManager.getConnection(url, user, pw);
 		
@@ -63,8 +63,10 @@ public class MemberDAO implements DaoInterface {
 	
 	@Override
 	public boolean insertMember(MemberDTO dto) {
-		String sql = " insert into MemberDTO (id, name, pw, email, auth)"
-				+ "values(?, ?, ?, ?, 3)"; // insert sql문.
+		
+		String sql = " INSERT INTO MEMBER "
+				+ " (ID, PWD, NAME, EMAIL, AUTH) "
+				+ " VALUES(?, ?, ?, ?, 3) ";
 		
 
 		Connection conn = null;
@@ -94,7 +96,7 @@ public class MemberDAO implements DaoInterface {
 
 	@Override
 	public MemberDTO login(MemberDTO dto) {
-		String sql = " SELECT id, name, email, auth FROM MemberDTO"
+		String sql = " SELECT id, name, email, auth FROM MEMBER "
 				+ " WHERE id = ? and pw=?";
 		
 		Connection conn = null;
