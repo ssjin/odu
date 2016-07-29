@@ -53,10 +53,35 @@ if(type == 2){			// insert
 	<%
 	}
 }
+if(type == 4){		//글삭제
+	String bbsseqq = request.getParameter("seq");
+	int bbsseq =  Integer.parseInt(bbsseqq);
+	boolean deleteS = dao.deleteBbs(bbsseq);
+	if(deleteS){
+		%>
+		<script>
+		alert("글삭제");
+		location.href="bbslist.jsp";
+		</script>
+		<%
+	}
+}
+if(type == 5){		//글수정
+	String bbsseqq = request.getParameter("bbsseq");
+	int bbsseq =  Integer.parseInt(bbsseqq);
+	String content = request.getParameter("content");
+	String title = request.getParameter("title");
+	boolean updateS = dao.updateBBS(bbsseq, title, content);
+	if(updateS){
+		%>
+		<script>
+		alert("글수정");
+		location.href="bbslist.jsp";
+		</script>
+		<%
+	}
+}
 %>
-
-
-
 
 </body>
 </html>
