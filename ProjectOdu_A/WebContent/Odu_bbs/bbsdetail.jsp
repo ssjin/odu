@@ -38,6 +38,15 @@
 			alert("답글");
 			document.frm1.action="bbsanswer.jsp?";
 		}
+		if(a == 4){				//글삭제
+			alert("글삭제");
+			/* document.frm1.action="repleAf.jsp?type=4&bbsseq="+document.frm1.seq.value+""; */
+			document.frm1.action="repleAf.jsp?type=4&bbsseqq="+document.frm1.bbsseqq.value+"";
+		}
+		if(a == 5){				//글수정
+			alert("글수정");
+			document.frm1.action="bbsupdate.jsp";
+		}
 		
 		document.frm1.submit();
 }
@@ -130,14 +139,25 @@ bbsDTO bbsdto=dao.getBBS(seq);
 </tr>	
 </table>
 
-	<input type="hidden" name='seq' value="<%=bbsdto.getSeq() %>"/>
+	<input type="hidden" name="seq" value="<%=bbsdto.getSeq() %>"/>
 	<input type="submit" onclick="aa(3)" value="답글">
 
 <br>
-
-	<input type="hidden" name='seq' value="<%=bbsdto.getSeq() %>"/>
-	<input type="submit" value="삭제">
+	<%
+	if(loginId.equals(bbsdto.getId())){
+	%>
+	<input type="hidden" name="bbsseq" value="<%=bbsdto.getSeq() %>"/>
+	<input type="hidden" name='bbsid' value="<%=bbsdto.getId() %>"/>
+	<input type="hidden" name='bbstitle' value="<%=bbsdto.getTitle() %>"/>
+	<input type="hidden" name='bbswdate' value="<%=bbsdto.getWdate() %>"/>
+	<input type="hidden" name='bbscontent' value="<%=bbsdto.getContent() %>"/>
 	
+	
+	<input type="submit" onclick="aa(4)" value="삭제">
+	<input type="submit" onclick="aa(5)" value="수정">
+	<%
+	}
+	%>	
 <hr>
 
 <div style=" width: 600px; height: 150px; background-color: #79a099; ">

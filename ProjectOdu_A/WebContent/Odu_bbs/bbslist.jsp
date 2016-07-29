@@ -245,7 +245,11 @@ for(int i = record_start_no; i < record_start_no+page_per_record_cnt; i++){
       <td style="text-align: left; padding-left: 20px;">
       <%if(dto.getDel() == 1){
       %>이 글은 삭제 되었습니다.<% }else{ %>
-         <a style="text-decoration: none; color: black;" href="bbsdetail.jsp?seq=<%=dto.getSeq()%>&title=<%=dto.getTitle()%>"><%=dto.getTitle() %></a>
+         <a style="text-decoration: none; color: black;" href="bbsdetail.jsp?seq=<%=dto.getSeq()%>&title=<%=dto.getTitle()%>"><%=dto.getTitle() %>
+         											<font size="3"><% int replecount = dao.repleCount(2, dto.getSeq()); %>
+         											<%if(replecount > 0){ %>
+         											[<%=replecount%>]
+         											<%}%></font> </a>
                     <!-- jsp?넘기고싶은 값. &를 이용해서 계속 넘길수 있다. -->
       <%} %></td>
       <td style="text-align: center"><%=dto.getReadcount() %></td>

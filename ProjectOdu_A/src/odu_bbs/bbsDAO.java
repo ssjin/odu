@@ -454,18 +454,109 @@ public class bbsDAO implements ibbsDAO {
 		return count>0?true:false;
 	}
 	
+	//------------------------------------------------------------------	
+	@Override
+	public boolean deleteBbs(int bbsseq) {
+		String sql=" UPDATE FREEBBS SET "
+				+ " DEL=1 "
+				+ " WHERE SEQ=? ";
+		
+		Connection conn=null;
+		PreparedStatement psmt=null;
+		ResultSet rs=null;
+		int count = 0;
+		
+		try{
+			conn=MemberDAO.getConnection();
+			log("2/6 Success deleteBbs");
+			
+			psmt=conn.prepareStatement(sql);
+			psmt.setInt(1, bbsseq);
+			log("3/6 Success deleteBbs");
+			
+			count=psmt.executeUpdate();
+			log("4/6 Success deleteBbs");			
+			
+		}catch(SQLException e){
+			log("Fail deleteBbs", e);
+		}finally{
+			MemberDAO.close(conn, psmt, rs);
+			log("6/6 Success deleteBbs");
+		}			
+		return count>0?true:false;
+	}
 	
+	//------------------------------------------------------------------	
+	@Override
+	public boolean updateBBS(int bbsseq, String title, String content) {
+		String sql=" UPDATE FREEBBS SET "
+				+ " content='" + content + "', title='" + title + "' "
+				+ " WHERE SEQ=? ";
+		
+		Connection conn=null;
+		PreparedStatement psmt=null;
+		ResultSet rs=null;
+		int count = 0;
+		
+		try{
+			conn=MemberDAO.getConnection();
+			log("2/6 Success updateBBS");
+			
+			psmt=conn.prepareStatement(sql);
+			psmt.setInt(1, bbsseq);
+			log("3/6 Success updateBBS");
+			
+			count=psmt.executeUpdate();
+			log("4/6 Success updateBBS");			
+			
+		}catch(SQLException e){
+			log("Fail updateBBS", e);
+		}finally{
+			MemberDAO.close(conn, psmt, rs);
+			log("6/6 Success updateBBS");
+		}			
+		return count>0?true:false;
+	}
 	
+//-----------------------------------------------------------------------------
+	@Override
+	public int repleCount(int bbsnum, int bbsseq) {
+		String sql= " SELECT COUNT(SEQ) "
+				+ " FROM BBSREPLE "
+				+ " WHERE BBS_NUM=? AND REF=? AND DEL=0 ";
+		
+		Connection conn=null;
+		PreparedStatement psmt=null;
+		ResultSet rs=null;
+		
+		int replecount = 0;
+		
+		try{
+			conn=MemberDAO.getConnection();	
+			log("2/6 Success repleCount");
+			
+			psmt=conn.prepareStatement(sql);
+			psmt.setInt(1, bbsnum);
+			psmt.setInt(2, bbsseq);
+			log("3/6 Success repleCount");
+			
+			rs=psmt.executeQuery();
+			log("4/6 Success repleCount");
+			
+			while(rs.next()){
+				replecount = rs.getInt(1);
+			}
+			log("5/6 Success repleCount");
+		}catch(SQLException e){
+			log("Fail repleCount");
+		}finally{
+			MemberDAO.close(conn, psmt, rs);
+			log("6/6 Success repleCount");
+		}
+		return replecount;
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+//----------------------------------------------------
 	
 	
 	public void	log(String msg) {		
@@ -473,6 +564,10 @@ public class bbsDAO implements ibbsDAO {
 			System.out.println(getClass() + ": " + msg);
 		}		
 	}	
+
+
+	
+
 
 
 	public void	log(String msg, Exception e) {
