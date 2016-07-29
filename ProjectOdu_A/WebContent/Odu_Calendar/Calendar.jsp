@@ -145,6 +145,10 @@ public String showpen(int year, int month, int day){
 	return s;	
 }
 
+
+
+
+
 public String two(String msg){
 	return msg.trim().length() < 2 ? "0"+msg : msg.trim();
 }
@@ -168,15 +172,16 @@ public String makeTable(int year, int month, int day, List<CalendarDTO> lcdtos){
 	s+="<col width='98'/>";
 	for(CalendarDTO lcd:lcdtos){
 		if(lcd.getRdate().substring(0, 8).equals(dates)){
-			s += "<tr>";
-			s += "<td>";
-			s += "<a href='Caldetail.jsp?seq="+lcd.getSeq()+"'>";
-			s += "<font style='font-size:8; color:blue'>";
+			//s += "<tr>";
+			//s += "<td>";
+			s += "<br>";
+			s += "<a href='Caldetail.jsp?seq="+lcd.getSeq()+"' style='text-decoration:none'>";
+			s += "<font style='font-size:8; color:grey'>";
 			s += dot3(lcd.getTitle());
 			s += "</font>";
 			s += "</a>";
-			s += "</td>";
-			s += "</tr>";			
+			//s += "</td>";
+			//s += "</tr>";			
 		}
 	}
 	s += "</table>";
@@ -289,27 +294,28 @@ int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 for(int i = 1;i <= lastDay; i++){
 	%>	
 	
-	<td><font size="1" color="RGB(90,90,90)"><%=callist(year, month, i)%>&nbsp;<%=showpen(year, month, i)%>
-	<%=makeTable(year, month, i, cdtos) %>
-	
-	
-	
-	<%String[] YouBirth = mem.getBirth().split("/");
+		
+	<%
+	String[] YouBirth = mem.getBirth().split("/");
 	String seng = two(YouBirth[1])+two(YouBirth[2]);
-	//out.print(YouBirth[1]+YouBirth[2]);	//0101
+	String il = (two(Integer.toString(i)));
+	%>
+	
+	
+	<td><font size="1" color="RGB(90,90,90)"><%=callist(year, month, i)%>&nbsp;<%=showpen(year, month, i)%>
 
-		String il = (two(Integer.toString(i)));
-		if(seng.equals(("0"+month)+il)){%>
+	<%
+	if(seng.equals(("0"+month)+il)){%>
 			<div class="w3-dropdown-hover">
-            <img src="../image/cake.png" style="position: absolute; left: 53px; top: 38px">
+            <img src="../image/cake.png" style="position: absolute; top: 35px; left: 25px">
             <div class="w3-dropdown-content w3-border">
             <p align="center"><font size="2">내생일(<%=YouBirth[0]%>년생)</font></p>
-			</div>
+			</div></div>
 	<%
 		}
 	%>
 	
-	
+	<%=makeTable(year, month, i, cdtos) %>
 
 	 
 	 
@@ -336,7 +342,6 @@ for(int i = 0;i < (7-(dayOfWeek+lastDay-1)%7)%7; i++){
 }
 %>
 </tr>
-       
 
 
   <!--   중간 끝 -->

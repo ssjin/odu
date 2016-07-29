@@ -11,6 +11,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
  <link rel="stylesheet" href="../css/w3.css">
  <link rel="stylesheet" href="../css/w3-theme-blue-grey.css">
+ 
+ 
+ 
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <title>오늘부터 듀오</title>
 
 <script type="text/javascript">
@@ -114,50 +121,19 @@ MemberDTO mem = (MemberDTO)objlogin;
            <div class="w3-card-2 w3-round w3-white">
               <div class="w3-container w3-padding">
                  <h6 class="w3-opacity">타임 라인</h6>
-                    
-            
+                                
             <form name="frm1" action="fileupload.jsp" method="post" enctype="multipart/form-data">
                
-               
                <p contenteditable="true" class="w3-border w3-padding" id="content"></p>
+
+  				<div class="file_input_div w3-btn w3-theme">
+  					<input type="file" class="file_input_hidden" name="fileload" onchange="javascript: document.getElementById('fileName').value = this.value" />사진
+				</div>
                
-               
-               
-            <!--    <button onclick="document.getElementById('id01').style.display='block'" class="w3-btn">사진 올리기</button>         
-                     <div id="id01" class="w3-modal">
-                       <div class="w3-modal-content w3-animate-top w3-card-8">
-                         <header class="w3-container w3-teal">
-                           <span onclick="document.getElementById('id01').style.display='none'"
-                           class="w3-closebtn">&times;</span>
-                           <h3>사진올리기</h3>
-                         </header>
-                         <div class="w3-container">
-                         <input type="file" class="w3-btn w3-theme" name="fileload" ><i class="fa fa-pencil"></i>
-                         </div>
-                       
-                       </div>
-                     </div>    -->                     
-                <%--<input type="file" class="w3-btn w3-theme" name="fileload" ><i class="fa fa-pencil"></i>  --%>
+               <button type="submit" class="w3-btn w3-theme" onclick="context()"><i class="fa fa-pencil"></i>글쓰기</button>
                 
-                <div class="file_input_div w3-btn w3-theme">
-  				<input type="button" value="사진" class="w3-btn w3-theme" />
-  				<input type="file" class="file_input_hidden" name="fileload" onchange="javascript: document.getElementById('fileName').value = this.value" />
-   				</div>
-               
-               <button type="submit" class="w3-btn w3-theme" onclick="context()"><i class="fa fa-pencil"></i> 글쓰기</button>
-                <table>
-                
-                  <tr>
-                     <input type="hidden" name='id' value="<%=mem.getId()%>">
-                  </tr>   
-                 
-               <!-- <tr>
-                  <td>사진 추가</td>
-                  <td>
-                     <input type="file" name="fileload" style="width:400px;">
-                  </td>
-               </tr> -->
-                  </table>
+                <input type="hidden" name='id' value="<%=mem.getId()%>"> 
+
             </form>   <%-- end of form --%>
          </div>   <%-- end of w3-container w3-padding --%>
       </div>   <%-- end of w3-card-2 w3-round w3-white --%>
@@ -190,36 +166,20 @@ for(int i = 0; i < tlist.size(); i++){
       <%
       if( tdto.getDel() == 0 ){
        %>
-      <!-- <table> -->
-        <!--  <tr>            
-            <td rowspan="3">프로필 사진</td>
-         </tr> -->
+       
          <img src="../image/pro1.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        
-         <%-- <tr>            
-            <td><%=tdto.getId() %></td>
-         </tr>   --%> 
          
          <%
          String time = tdto.getWdate();
          time = time.substring(0,16);
          %>
-         <%-- <tr>
-            <td><%=time %></td>
-         </tr> --%>
+         
          <span class="w3-right w3-opacity"><%=time %></span>
          <h4><%=tdto.getId() %></h4><br>
          
          <hr class="w3-clear">
          <p> <%=tdto.getContent() %></p>
-         
-         <%-- <tr>
-            <td colspan="2">
-               <textarea rows="10" cols="38" readonly="readonly">
-                  <%=tdto.getContent() %>
-               </textarea>
-            </td>
-         </tr> --%>
+
          <div class="w3-row-padding" style="margin:0 -16px">
             <div class="w3-half">
               
@@ -228,53 +188,79 @@ for(int i = 0; i < tlist.size(); i++){
              
           </div>
         </div>
-        
+        <img src="\\211.238.142.172\upload\<%=tdto.getF_name() %>" width="250px" height="250px"> 
+        <br /><br />
         <%
+        	// 자기가 쓴 글일때는
             if(mem.getId().equals(tdto.getId())){
          %>
-         <form action="timelinedel.jsp" method="post">
-            <input type="hidden" name="id" value="<%=mem.getId()%>" />
-            <input type="hidden" name="seq" value="<%=tdto.getSeq()%>" />
-            <button type="submit" class="w3-btn w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>삭제</button>
-         </form>
-         <form action="timelineupdate.jsp" method="post">
-            <input type="hidden" name="id" value="<%=mem.getId()%>" />
-            <input type="hidden" name="seq" value="<%=tdto.getSeq()%>" />
-            <button type="submit" class="w3-btn w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>수정</button>
-         </form>
+		
+         <a href="timelinedel.jsp?seq=<%=tdto.getSeq()%>&id=<%=mem.getId()%>"><button type="button"class="w3-btn w3-theme-d1 w3-margin-bottom">삭제</button></a>
+		
+		 <!-- 수정버튼을 클릭하면 클릭한 글의 내용을 가져오고 -> dao 생성, 그 다음 페이지에 뿌려주고 update를 해준다. -->			 
+		<button onclick="document.getElementById('id01').style.display='block'" class="w3-btn w3-theme-d1 w3-margin-bottom">수정</button>
+		<!-- Trigger the modal with a button -->
+
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" onclick="up()">수정</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog" >
+  
+  <script type="text/javascript">
+  function up(){
+	  document.frm1.action='uplist.jsp?seq=<%=tdto.getSeq()%>&id=<%=mem.getId()%>';
+	  
+  }
+  </script>
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+  
+</div>
+		<div id="id01" class="w3-modal">
+		
+		
+		
+		  <div class="w3-modal-content w3-animate-top w3-card-8">
+		 	 
+		 	 <header class="w3-container w3-teal">
+		 	 <p><%=tdto.getSeq()%></p>
+		 	 <p contenteditable="true" class="w3-border w3-padding" id="content"><%=tdto.getContent() %></p>
+		  	
+		  	
+		  	
+		    
+		      <a href="timelineupdate.jsp?seq=<%=tdto.getSeq()%>&id=<%=mem.getId()%>">
+		      	<button type="button"class="w3-btn w3-theme-d1 w3-margin-bottom">수정</button>
+		 	  </a>
+		  </div>
+		</div>	<!-- end of id01 -->
+		
          <%
          }else{
             %>
-            <button type="button" class="w3-btn w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>Like</button>
-                 <button type="button" class="w3-btn w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>댓글</button>
+
+            <a href="like.jsp?seq=<%=tdto.getSeq()%>&id=<%=mem.getId()%>"><button type="button"class="w3-btn w3-theme-d1 w3-margin-bottom">Like</button></a>
+             	 좋아요 수:<%=tdto.getT_like() %>
+            <button type="button" class="w3-btn w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>댓글</button>
+
                <%
                }
-            %>
-        
-         <!-- <tr>
-            <td colspan="2"> -->
-               <img src="\\211.238.142.172\upload\<%=tdto.getF_name() %>"> 
-<!--             </td>
-         </tr> -->
-         
-
-<script>
-$(document).ready(function(){
-   
-   $("#like").onclick(function(){
-       alert('Handler for .mousedown() called.');
-   });
-});
-
-function likeit(){
-   alert('이베트 발생');
-   // dao에 가서 like 버튼에 1추가
-   // 0이면 1을 추가, 0이 아닐 때  %2가 1이면 좋아요 취소, 0이면 좋아요 한 상태.
-   // 아이디가 없으면 추가 있으면 삭제
-   
-}
-</script>
-         
+            %>         
    </div>
    <%
    } // end of tdto.getDel() == 0
@@ -295,10 +281,7 @@ function likeit(){
           <p><button class="w3-btn w3-btn-block w3-theme-l4">일정보기</button></p>
         </div>
       </div>
-      <br>
-      
-    
-      
+      <br>      
     <!-- 오른 쪽끝  -->
     </div>
     
@@ -310,16 +293,16 @@ function likeit(){
 <br>
 
 <script type="text/javascript">
-               function context()
-               {
-                  var content = document.getElementById("content").innerHTML;
-
-                  document.frm1.action="fileupload.jsp?content="+content;
-                  document.frm1.submit();
-               }
-               </script>
+// 글쓸때 content 넘기는 함수
+function context(){
+	var content = document.getElementById("content").innerHTML;
+	document.frm1.action="fileupload.jsp?content="+content;
+	document.frm1.submit();
+}
+</script>
 
 <script>
+
 // Accordion
 function myFunction(id) {
     var x = document.getElementById(id);

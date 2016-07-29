@@ -117,9 +117,9 @@ if(isMultipart){
 				content = item.getString("utf-8");
 			}else if(item.getFieldName().equals("title_select")){
 				cate = item.getString("utf-8");
-				if(cate.equals('0')){
+				if(cate.equals("0")){
 					cate = "";
-					cate = "기타";
+					cate = "[기타]";
 				}
 			}else if(item.getFieldName().equals("eyear")){
 				year = item.getString("utf-8");
