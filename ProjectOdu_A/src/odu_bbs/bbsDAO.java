@@ -39,7 +39,7 @@ public class bbsDAO implements ibbsDAO {
 				+ " TITLE, CONTENT, F_NAME, L_NAME, F_LIKE, WDATE, PARENT, "
 				+ " READCOUNT, DEL "
 				+ " FROM FREEBBS "
-				+ " ORDER BY REF DESC, STEP ASC ";
+				+ " ORDER BY WDATE DESC ";
 		
 		Connection conn=null;
 		PreparedStatement psmt=null;
@@ -101,7 +101,7 @@ public class bbsDAO implements ibbsDAO {
 				+ " (SEQ, BBS_NUM, ID, REF, STEP, DEPTH, "
 				+ " TITLE, CONTENT, F_NAME, L_NAME, F_LIKE, WDATE, PARENT, "
 				+ " READCOUNT, DEL) "
-				+ " VALUES(SEQ_FREEBBS.NEXTVAL, 2, 'aaa', "
+				+ " VALUES(SEQ_FREEBBS.NEXTVAL, 2, ?, "
 				+ " 0, "
 				+ " 0, 0, ?, ?, 0, 0, 0, SYSDATE, 0, 0, 0) ";
 		
@@ -116,8 +116,9 @@ public class bbsDAO implements ibbsDAO {
 			log("2/6 Success writeBBS");
 			
 			psmt=conn.prepareStatement(sql);
-			psmt.setString(1, tbbs.getTitle());
-			psmt.setString(2, tbbs.getContent());
+			psmt.setString(1, tbbs.getId());
+			psmt.setString(2, tbbs.getTitle());
+			psmt.setString(3, tbbs.getContent());
 			log("3/6 Success writeBBS");
 			
 			count=psmt.executeUpdate();
@@ -350,6 +351,76 @@ public class bbsDAO implements ibbsDAO {
 		}	
 		
 		return count > 0?true:false;
+	}
+	
+	//-----------------------------------------------
+	public boolean answer(int seq, bbsDTO bbs) {
+	      String sql1 = " UPDATE FREEBBS SET "
+	               + " STEP=STEP+1"   // STEP은 한칸씩 밀리게 하고
+	               + " WHERE REF=(SELECT REF FROM FREEBBS WHERE SEQ=?) "   // 부모글로써 매치가 되는 것   
+	               + " AND STEP >= (SELECT STEP FROM FREEBBS WHERE SEQ=?) ";   // 현재 있는 STEP보다 큰 번호로 넣어야하는?, 즉 다 한칸씩 민 것
+	      // 밀은 것 다시 넣기
+	      String sql2 =" INSERT INTO FREEBBS "
+	               + " (SEQ, BBS_NUM, ID, REF, STEP, DEPTH, TITLE, CONTENT, "
+	               + " F_NAME, L_NAME, F_LIKE, WDATE, PARENT, READCOUNT, DEL) "
+	               + " VALUES(SEQ_FREEBBS.NEXTVAL, 2, ?, "
+	               + " (SELECT REF FROM FREEBBS WHERE SEQ=?),"   // BBS에 대한 부모글 -> REF
+	               + " (SELECT STEP FROM FREEBBS WHERE SEQ=?)+1,"   // 현재 STEP을 하면 부모글과 같아지니 +1 해야함, 즉 첫번째 스텝은 부모글 두번째 스탭은 현재 답글..
+	               + " (SELECT DEPTH FROM FREEBBS WHERE SEQ=?)+1,"
+	               + " ?, ?, 0, 0, 0, SYSDATE, ?, 0, 0)";
+	      
+	      Connection conn = null;
+	      PreparedStatement psmt = null;
+	      ResultSet rs = null;
+	      
+	      int count = 0;
+	      
+	      try{
+	         conn = MemberDAO.getConnection();
+	         conn.setAutoCommit(false);   // 원래 자체적으로 오토커밋이 자동으로 되있어서 디비에 가서 커밋을 안해도된다? 근데 일단 여기선 오토커밋을 꺼야해 그래서 false로
+	                              // 왜냐면 sql1이 제대로 됐는데 중간에 꺼버리면 sql2하다가 이상이 생기지? 그래서! 이걸 꺼놓고 finally에서 켜놔야해 ㄹ왜냐면 자동으로 시작돼서
+	         log("2/6 Success answer");
+	         
+	         //////////////////////////////////////////////////////////////update
+	         psmt = conn.prepareStatement(sql1);
+	         psmt.setInt(1, seq);
+	         psmt.setInt(2, seq);
+	         log("3/6 Success answer");
+	         
+	         count = psmt.executeUpdate();
+	         ////////////////////////////////////////////////////////////// update
+	         
+	         psmt.clearParameters();   // 또 쓰는데 값이 남으면 안돼서 초기화 클리어!
+	         
+	         //////////////////////////////////////////////////////////////insert
+	         psmt=conn.prepareStatement(sql2);
+	         
+	         int i = 1;
+	         psmt.setString(i++, bbs.getId());
+	         psmt.setInt(i++, seq);
+	         psmt.setInt(i++, seq);
+	         psmt.setInt(i++, seq);
+	         psmt.setString(i++, bbs.getTitle());
+	         psmt.setString(i++, bbs.getContent());
+	         psmt.setInt(i++, seq);
+	         
+	         count=psmt.executeUpdate();
+	         
+	         conn.commit();      // 즉 커밋끄고 강제적으로 여기서 커밋하고 잘못되면 롤백으로 돌리는거고 마지막엔 무조건 투르로 하고
+	         log("4/6 Success answer");
+	      }catch(SQLException e){
+	         try{
+	            conn.rollback();
+	         }catch(SQLException ex){}
+	      }finally{
+	         try{
+	            conn.setAutoCommit(true);
+	         }catch(SQLException e){}
+	         MemberDAO.close(conn, psmt, rs);
+	         log("6/6 Success answer");   
+	      }      
+	      
+	      return count>0?true:false;
 	}
 	
 	public void	log(String msg) {		

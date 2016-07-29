@@ -1,3 +1,4 @@
+<%@page import="odu_member.MemberDTO"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.List"%>
@@ -32,6 +33,10 @@ input{
 
 <div class='center'>
 <%
+
+MemberDTO mdto = (MemberDTO)session.getAttribute("login");
+String loginId = mdto.getId();
+
 String sseq=request.getParameter("seq");
 int seq=Integer.parseInt(sseq);	//trim()
 
@@ -44,7 +49,7 @@ bbsDTO bbsdto=dao.getBBS(seq);
 
 /* System.out.println(bbs.toString()); */
 %>
-
+<form name="frm1" method="post">
 <table border="1">
 
 <tr>
@@ -80,21 +85,24 @@ bbsDTO bbsdto=dao.getBBS(seq);
 </tr>	
 </table>
 
-<form action="answer.jsp" method="post">
+<form action="bbsanswer.jsp" method="post">
 	<input type="hidden" name='seq' value="<%=bbsdto.getSeq() %>"/>
 	<input type="submit" value="답글">
 </form>
 
-<br>
-
+<%
+if(loginId.equals(bbsdto.getId())){
+%>
 <form action="reple.jsp" method="post">
 	<input type="hidden" name='seq' value="<%=bbsdto.getSeq() %>"/>
 	<input type="submit" value="삭제">
 </form>
+<%
+}
+%>
 <hr>
 
 <div style=" width: 600px; height: 150px; background-color: #79a099; ">
-<form action="reple.jsp" method="post">
 <table>
 <col width="30"/><col width="350"/><col width="10">
 <tr>
@@ -110,7 +118,6 @@ bbsDTO bbsdto=dao.getBBS(seq);
 	<td><input type="submit"  value="입력"></td>
 </tr>
 </table>
-</form>
 <hr>
 
 <%
@@ -156,7 +163,7 @@ if(replelist.size() >= -1){
 <%
 }
 %>
-
+</form>
 </div>
 
 <a href="bbslist.jsp">글 목록</a>
