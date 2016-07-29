@@ -422,12 +422,58 @@ public class bbsDAO implements ibbsDAO {
 	      
 	      return count>0?true:false;
 	}
+//------------------------------------------------------------------
+	@Override
+	public boolean deleteReple(int repleseq) {
+		String sql=" UPDATE BBSREPLE SET "
+				+ " DEL=1 "
+				+ " WHERE SEQ=? ";
+		
+		Connection conn=null;
+		PreparedStatement psmt=null;
+		ResultSet rs=null;
+		int count = 0;
+		
+		try{
+			conn=MemberDAO.getConnection();
+			log("2/6 Success deleteReple");
+			
+			psmt=conn.prepareStatement(sql);
+			psmt.setInt(1, repleseq);
+			log("3/6 Success deleteReple");
+			
+			count=psmt.executeUpdate();
+			log("4/6 Success deleteReple");			
+			
+		}catch(SQLException e){
+			log("Fail deleteReple", e);
+		}finally{
+			MemberDAO.close(conn, psmt, rs);
+			log("6/6 Success deleteReple");
+		}			
+		return count>0?true:false;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public void	log(String msg) {		
 		if(isS){
 			System.out.println(getClass() + ": " + msg);
 		}		
 	}	
+
 
 	public void	log(String msg, Exception e) {
 		boolean isS=true;
