@@ -14,6 +14,9 @@ public interface ItimelineDAO {
    // 타임라인 글 삭제
    boolean delTimeLine(int seq, String id);
    
+   // 타임라인 글 수정
+   boolean updateTimeline(int seq, String id, String content, String f_name);
+   
    // 타임라인 좋아요 버튼
    boolean t_like(int seq, String id);
 }
