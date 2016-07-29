@@ -17,5 +17,6 @@ public interface ibbsDAO {
 	boolean deleteReple(int repleseq);
 	boolean deleteBbs(int bbsseq);
 	boolean updateBBS(int bbsseq, String title, String content);
+	int repleCount(int bbsnum, int bbsseq);
 	
 }

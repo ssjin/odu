@@ -53,3 +53,9 @@ select * from BBSREPLE
 
 insert into MEMBER(ID, PW, NAME, GENDER, BIRTH, ADDRESS, JOB, EMAIL, IMAGE, LOG)
 VALUES('harp', '1', '황혜린', 1, '1992-12-28', '서울', '백수', 'harpsong@naver.com' , '0', '0');
+
+
+
+SELECT COUNT(SEQ)
+FROM BBSREPLE
+WHERE BBS_NUM=2 AND REF=23 AND DEL=0;
