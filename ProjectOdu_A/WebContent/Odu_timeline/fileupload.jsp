@@ -58,8 +58,8 @@ public void processUploadFile(FileItem fileItem, String dir, JspWriter out)
 %>
 
 <%
-String fupload = application.getRealPath("/upload");
-//String fupload = "c:\\upload";
+//String fupload = application.getRealPath("/upload");
+String fupload = "//211.238.142.172/upload";
 
 System.out.println("fupload=" + fupload);
 

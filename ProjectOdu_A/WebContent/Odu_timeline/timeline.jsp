@@ -167,7 +167,8 @@ String id = mem.getId();   // 세션 아이디 저장
 timelineDAO dao = timelineDAO.getInstance();
 List<timelineDTO> tlist = dao.getTimeLineList(id);
 
-String fupload = application.getRealPath("/upload");
+//String fupload = application.getRealPath("/upload");
+String fupload = "//211.238.142.172/upload";
 System.out.println("fupload-> " + fupload);
 
 String filePath="";
@@ -246,7 +247,7 @@ for(int i = 0; i < tlist.size(); i++){
         
          <!-- <tr>
             <td colspan="2"> -->
-               <img src="D:\j\jspstudy\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ProjectOdu\upload\<%=tdto.getF_name() %>"> 
+               <img src="//211.238.142.172/upload<%=tdto.getF_name() %>"> 
 <!--             </td>
          </tr> -->
          
