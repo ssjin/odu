@@ -137,14 +137,20 @@ MemberDTO mem = (MemberDTO)objlogin;
                        
                        </div>
                      </div>    -->                     
-                <input type="file" class="w3-btn w3-theme" name="fileload" >사진<i class="fa fa-pencil"></i> 
+                <%--<input type="file" class="w3-btn w3-theme" name="fileload" ><i class="fa fa-pencil"></i>  --%>
+                
+                <div class="file_input_div w3-btn w3-theme">
+  				<input type="button" value="사진" class="w3-btn w3-theme" />
+  				<input type="file" class="file_input_hidden" name="fileload" onchange="javascript: document.getElementById('fileName').value = this.value" />
+   				</div>
                
                <button type="submit" class="w3-btn w3-theme" onclick="context()"><i class="fa fa-pencil"></i> 글쓰기</button>
-                  <table>
-                  
+                <table>
+                
                   <tr>
                      <input type="hidden" name='id' value="<%=mem.getId()%>">
                   </tr>   
+                 
                <!-- <tr>
                   <td>사진 추가</td>
                   <td>
@@ -188,7 +194,7 @@ for(int i = 0; i < tlist.size(); i++){
         <!--  <tr>            
             <td rowspan="3">프로필 사진</td>
          </tr> -->
-         <img src="image/pro1.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+         <img src="../image/pro1.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
         
          <%-- <tr>            
             <td><%=tdto.getId() %></td>

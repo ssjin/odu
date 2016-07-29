@@ -37,14 +37,14 @@ boolean isS = dao.insertMember(new MemberDTO(id, pw, name, sex, birth, address, 
 if(isS){
 %>
 	<script type="text/javascript">
-	alert("가입 축하!!");
-	location.href="index.jsp";
+	alert("가입을 축하합니다.");
+	location.href="../index.jsp";
 	</script>
 <%
 }else {
 	%>
 	<script type="text/javascript">
-	alert("가입 다시 ㄱㄱ");
+	alert("다시 가입하여 주시기 바랍니다.");
 	location.href="reg.jsp";
 	</script>
 	<%

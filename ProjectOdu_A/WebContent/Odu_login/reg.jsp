@@ -213,24 +213,24 @@ $(function(){
          <font style="color: #1ab188; font: bold;">지역</font>    
             <select name="location" class="inputtext" id="location">
          <option value="0" selected="1">지역</option>
-         <option value="seoul">서울</option>
-         <option value="incheon">인천</option>
-         <option value="gyeonggi">경기</option>
-         <option value="busan">부산</option>
-         <option value="daegu">대구</option>
-         <option value="daejun">대전</option>
-         <option value="gyungnam">경남</option>
-         <option value="junnam">전남</option>
-         <option value="chungnam">충남</option>
-         <option value="kangju">광주</option>
-         <option value="ulsan">울산</option>
-         <option value="gyungbuk">경북</option>
-         <option value="junbuk">전북</option>
-         <option value="chungbuk">충북</option>
-         <option value="gangwon">강원</option>
-         <option value="jeju">제주</option>
-         <option value="sejong">세종</option>
-         <option value="etc">기타</option>
+         <option value="서울">서울</option>
+         <option value="인천">인천</option>
+         <option value="경기">경기</option>
+         <option value="부산">부산</option>
+         <option value="대구">대구</option>
+         <option value="대전">대전</option>
+         <option value="경남">경남</option>
+         <option value="전남">전남</option>
+         <option value="충남">충남</option>
+         <option value="광주">광주</option>
+         <option value="울산">울산</option>
+         <option value="경북">경북</option>
+         <option value="전북">전북</option>
+         <option value="충북">충북</option>
+         <option value="강원">강원</option>
+         <option value="제주">제주</option>
+         <option value="세종">세종</option>
+         <option value="기타">기타</option>
          
          </select>
          

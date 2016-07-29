@@ -295,11 +295,11 @@ for(int i = 1;i <= lastDay; i++){
 	
 	
 	<%String[] YouBirth = mem.getBirth().split("/");
-	
-//	out.print(YouBirth[1]+YouBirth[2]);	//0101
+	String seng = two(YouBirth[1])+two(YouBirth[2]);
+	//out.print(YouBirth[1]+YouBirth[2]);	//0101
 
 		String il = (two(Integer.toString(i)));
-		if(("0"+YouBirth[1]+YouBirth[2]).equals(("0"+month)+il)){%>
+		if(seng.equals(("0"+month)+il)){%>
 			<div class="w3-dropdown-hover">
             <img src="../image/cake.png" style="position: absolute; left: 53px; top: 38px">
             <div class="w3-dropdown-content w3-border">
