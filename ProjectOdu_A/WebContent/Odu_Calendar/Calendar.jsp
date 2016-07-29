@@ -1,3 +1,4 @@
+<%@page import="com.sun.xml.internal.ws.api.ha.StickyFeature"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="odu_member.MemberDTO"%>
@@ -25,6 +26,20 @@ function change(url){
 <style>
 html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
 </style>
+<%
+Object ologin = session.getAttribute("login");
+MemberDTO mem = null;
+if(ologin == null){
+   %>
+   <script>
+   alert("로그인하십시오.");
+   location.href="../index.jsp";
+   </script>
+   <%
+   return;
+}
+mem =(MemberDTO)ologin;
+%>
 <body class="w3-theme-l5">
 
 <!-- Navbar -->
@@ -61,12 +76,12 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
       <!-- 프로필 부분 -->
       <div class="w3-card-2 w3-round w3-white">
         <div class="w3-container">
-         <h4 class="w3-center">My Profile</h4>
+         <h4 class="w3-center">My Profile<br><%=mem.getName() %></h4>
          <p class="w3-center"><img src="../image/pro.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> 개발자</p>
-         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> 서울</p>
-         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> 1988년생 2월 2일</p>
+         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i><%=mem.getJob() %></p>
+         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i><%=mem.getAddress() %></p>
+         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> <%=mem.getBirth() %></p>
         </div>
       </div>
       <br>
@@ -270,11 +285,34 @@ for(int i = 1;i < dayOfWeek; i++){
 	<%	
 }
 int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+
 for(int i = 1;i <= lastDay; i++){
 	%>	
 	
 	<td><font size="1" color="RGB(90,90,90)"><%=callist(year, month, i)%>&nbsp;<%=showpen(year, month, i)%>
-	<%=makeTable(year, month, i, cdtos) %><img src="../image/cake.png" onmouseover="alert('생일입니다.')">
+	<%=makeTable(year, month, i, cdtos) %>
+	
+	
+	
+	<%String[] YouBirth = mem.getBirth().split("/");
+	
+//	out.print(YouBirth[1]+YouBirth[2]);	//0101
+
+		String il = (two(Integer.toString(i)));
+		if(("0"+YouBirth[1]+YouBirth[2]).equals(("0"+month)+il)){%>
+			<div class="w3-dropdown-hover">
+            <img src="../image/cake.png" style="position: absolute; left: 53px; top: 38px">
+            <div class="w3-dropdown-content w3-border">
+            <p align="center"><font size="2">내생일(<%=YouBirth[0]%>년생)</font></p>
+			</div>
+	<%
+		}
+	%>
+	
+	
+
+	 
+	 
 	</font></td>
 	<%-- <td height="100" align="left" valign="top">
 		<%=i %>
@@ -338,7 +376,8 @@ for(int i = 0;i < (7-(dayOfWeek+lastDay-1)%7)%7; i++){
 
 
 
- 
+
+
 <script>
 // Accordion
 function myFunction(id) {
