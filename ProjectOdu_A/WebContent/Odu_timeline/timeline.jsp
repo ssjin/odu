@@ -247,7 +247,7 @@ for(int i = 0; i < tlist.size(); i++){
         
          <!-- <tr>
             <td colspan="2"> -->
-               <img src="//211.238.142.172/upload<%=tdto.getF_name() %>"> 
+               <img src="\\211.238.142.172\upload\<%=tdto.getF_name() %>"> 
 <!--             </td>
          </tr> -->
          
